@@ -1,15 +1,15 @@
-package CRUD.CRUD.model;
-
-import org.springframework.stereotype.Component;
+package CRUD.CRUD.Model;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.util.Objects;
+
 @Entity
-public class User {
+public class User  {
    @Id
+   @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name;
     public User(Long id, String name) {
@@ -19,7 +19,7 @@ public class User {
 
     public User() {}
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
