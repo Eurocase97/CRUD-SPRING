@@ -1,6 +1,8 @@
 package CRUD.CRUD.Repository;
 
 import CRUD.CRUD.Model.User;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -27,4 +29,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Modifying
     @Query(value = "UPDATE User SET name = :nameNew where id = :id", nativeQuery = false)
     void update(@Param("nameNew")String name, @Param("id")Long idUser );
+
+    @Query(value = "SELECT u FROM User u where u.name like :letterLooked%", nativeQuery = false)
+    Page<User> findUserBeginWithLetter(@Param("letterLooked") String letter, Pageable pageable);
 }

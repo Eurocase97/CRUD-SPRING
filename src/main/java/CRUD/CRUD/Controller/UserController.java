@@ -3,6 +3,7 @@ package CRUD.CRUD.Controller;
 import CRUD.CRUD.Exception.DataExist;
 import CRUD.CRUD.Model.User;
 import CRUD.CRUD.Service.UserService;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,9 +24,8 @@ public class UserController {
          return userService.deleteUser(id);
     }
     @GetMapping(path="/user")
-    public List<User> addUser()  {
-        return userService.getAllUsers();
-    }
+    public Page<User> getAllUsers(@RequestParam(value = "page", required = false, defaultValue ="0") int page,
+                                  @RequestParam(value ="size", required = false, defaultValue ="10") int size)  {return userService.getAllUsers (page, size);}
 
     @PutMapping(path="/user/{id}")
     public User modifyUser(@PathVariable("id") Long id, @RequestBody User user)  {
@@ -38,5 +38,11 @@ public class UserController {
     @DeleteMapping(path="/deleteAllUser")
     public List<User> deleteUser() throws DataExist {
         return userService.deleteUser();
+    }
+    @GetMapping()
+    public Page<User> getUserWithLetter(@RequestParam("letter") String letter,
+                                        @RequestParam(value = "page", required = false, defaultValue ="0") int page,
+                                        @RequestParam(value ="size", required = false, defaultValue ="10") int size){
+        return userService.getUserWithLetter(letter, page, size);
     }
 }

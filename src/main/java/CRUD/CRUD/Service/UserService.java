@@ -5,6 +5,9 @@ import CRUD.CRUD.Exception.DataExist;
 import CRUD.CRUD.Model.User;
 import CRUD.CRUD.Repository.UserRepository;
 import com.github.javafaker.Faker;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -13,12 +16,13 @@ import java.util.Optional;
 
 @Service
 public class UserService {
-   private final UserRepository userRepository;
+   private  final UserRepository userRepository;
    private final JavaFaker javaFaker;
     public UserService(UserRepository userRepository, JavaFaker javaFaker) {
         this.userRepository = userRepository;
         this.javaFaker = javaFaker;
     }
+
     public List<User> inti(){
 
         List<User> users = new ArrayList<User>();
@@ -31,8 +35,9 @@ public class UserService {
         }
         return users;
     }
-    public List<User> getAllUsers(){
-        return userRepository.findAll();
+    public Page<User> getAllUsers(int page, int size){
+        Pageable paging = PageRequest.of(page, size);
+        return userRepository.findAll(paging);
     }
 
     public User saveUser(User user){
@@ -56,9 +61,14 @@ public class UserService {
             return userRepository.findAll() ;
         }
 
-
     public User update(Long id, String name) {
         userRepository.update(name, id);
         return userRepository.getById(id);
     }
+
+    public  Page<User> getUserWithLetter(String letter, int page, int size) {
+        Pageable paging = PageRequest.of(page, size);
+        return  userRepository.findUserBeginWithLetter(letter, paging);
+    }
+
 }
