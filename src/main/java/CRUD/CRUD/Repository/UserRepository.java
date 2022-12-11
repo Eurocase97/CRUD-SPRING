@@ -30,6 +30,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query(value = "UPDATE User SET name = :nameNew where id = :id", nativeQuery = false)
     void update(@Param("nameNew")String name, @Param("id")Long idUser );
 
-    @Query(value = "SELECT u FROM User u where u.name like :letterLooked%", nativeQuery = false)
+    @Query(value = "SELECT u.name FROM User u where u.name like :letterLooked%", nativeQuery = false)
     Page<User> findUserBeginWithLetter(@Param("letterLooked") String letter, Pageable pageable);
 }
